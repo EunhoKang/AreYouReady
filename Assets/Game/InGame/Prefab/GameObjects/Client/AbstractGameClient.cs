@@ -8,8 +8,11 @@ public abstract class AbstractGameClient : MonoBehaviour
 {
     public AbstractRoom CurrentRoom;
     public abstract bool ReadyForGame();
-    public abstract void RejectByServer();
-    protected bool CanMove = true;
+    public abstract void ShowResponseForReady();
+    public abstract void ShowResponseForReject();
+    private bool canMove = true;
+    public bool CanMove { get => canMove; set => canMove = value; }
+
     public void HostToRoom(AbstractRoom room)
     {
         CurrentRoom?.ReleaseClient(this);

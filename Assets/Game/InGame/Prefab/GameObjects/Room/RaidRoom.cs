@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class RaidRoom : AbstractRoom
@@ -7,19 +10,12 @@ public class RaidRoom : AbstractRoom
     public int MaxClientCount = 4;
     public List<Transform> Slots;
 
-    public override bool TryCloseRoom()
+    public bool TryCloseRoom()
     {
         bool flag = true;
         foreach(var client in Clients)
         {
             flag &= client.ReadyForGame();
-        }
-        if(!flag)
-        {
-            foreach(var client in Clients)
-            {
-                client.RejectByServer();
-            }
         }
         return flag;
     }
@@ -29,16 +25,54 @@ public class RaidRoom : AbstractRoom
         if(Clients.Count < MaxClientCount)
         {
             Clients.Add(client);
+            client.HostToRoom(this);
             UpdateClientList();
-            if(Clients.Count == MaxClientCount && TryCloseRoom())
+            if(Clients.Count == MaxClientCount)
             {
-                CloseRoom();
+                if(TryCloseRoom())
+                {
+                    RequestResponseForReady();
+                }
+                else
+                {
+                    RequestResponseForReject();
+                }
             }
             return true;
         }
         else
         {
             return false;
+        }
+    }
+
+    public async void RequestResponseForReady()
+    {
+        foreach(var client in Clients)
+        {
+            client.CanMove = false;
+            client.ShowResponseForReady();
+        }
+        await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
+        foreach(var client in Clients)
+        {
+            client.CanMove = true;
+        }
+        CloseRoom();
+    }
+
+    public async void RequestResponseForReject()
+    {
+        foreach(var client in Clients)
+        {
+            client.CanMove = false;
+            client.ShowResponseForReady();
+        }
+        await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
+        foreach(var client in Clients)
+        {
+            client.CanMove = true;
+            client.ShowResponseForReject();
         }
     }
 

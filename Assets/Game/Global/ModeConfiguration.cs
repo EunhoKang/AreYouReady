@@ -6,21 +6,22 @@ using System;
 [CreateAssetMenu(fileName = "GameMode", menuName = "ScriptableObjects/GameMode", order = 1)]
 public class ModeConfiguration : ScriptableObject
 {
-    public List<string> Instructions;
-    public List<int> Challenges;
-    public List<GameClientFrequencyData> GameClientFrequency;
-    public List<RoomFrequencyData> RoomFrequency;
+    [TextArea]
+    public string Instruction;
+    public List<GameClientData> GameClientFrequency;
+    public List<RoomData> RoomFrequency;
     public int LastingTime;    
 }
 
 [Serializable]
-public struct RoomFrequencyData {
+public class RoomData {
     public AbstractRoom room;
     public int EncounterPerMinute;
+    public int StartingCount;
 }
 
 [Serializable]
-public struct GameClientFrequencyData {
+public class GameClientData {
     public AbstractGameClient client;
     public int EncounterPerMinute;
 }

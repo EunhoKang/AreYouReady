@@ -31,16 +31,16 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         InputPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if(CurrentState == InputState.None)
+        if (CurrentState == InputState.None)
         {
-            if(Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 SelectClient(RaycastFromWorldView<AbstractGameClient>());
             }
         }
-        else if(CurrentState == InputState.Drag)
+        else if (CurrentState == InputState.Drag)
         {
-            if(Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0))
             {
                 ReleaseClient(RaycastFromWorldView<AbstractRoom>());
                 CurrentState = InputState.None;
@@ -58,7 +58,7 @@ public class InputManager : MonoBehaviour
     {
         Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero, int.MaxValue, ~LayerMask.GetMask("Selected"));
-        if(hit.collider == null)
+        if (hit.collider == null)
         {
             return default(T);
         }
@@ -67,7 +67,7 @@ public class InputManager : MonoBehaviour
 
     public void SelectClient(AbstractGameClient client)
     {
-        if(client == default(AbstractGameClient))
+        if (client == default(AbstractGameClient) || client.CanMove == false)
         {
             return;
         }
@@ -80,15 +80,12 @@ public class InputManager : MonoBehaviour
 
     public void ReleaseClient(AbstractRoom room)
     {
-        if(room == default(AbstractRoom))
+        if (room == default(AbstractRoom))
         {
+            DraggedObject.ReturnToPreviousRoom();
             return;
         }
-        if(room.TryJoinClient(DraggedObject))
-        {
-            DraggedObject.HostToRoom(room);
-        }
-        else
+        if (!room.TryJoinClient(DraggedObject))
         {
             DraggedObject.ReturnToPreviousRoom();
         }

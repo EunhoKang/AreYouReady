@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Cysharp.Threading.Tasks;
 using System.Linq;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,30 +24,51 @@ public class GameManager : MonoBehaviour
     }
 
     public Transform[] RoomSpawnArea;
-    public ModeConfiguration modeConfiguration;
+    public TextMeshProUGUI InstructionText;
+    public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI TimeText;
+    public TextMeshProUGUI WinText;
+    public GameObject WinObject;
+    private int score = 0;
+    private int timeleft = 0;
     private List<AbstractRoom> Rooms = new List<AbstractRoom>();
-    private List<AbstractGameClient> Clients = new List<AbstractGameClient>();
     private static System.Random rng = new System.Random();
 
-    void Start()
+    public void UIClicked()
     {
-        //Use for Debug
-        BuildSchedule(modeConfiguration);
+        Time.timeScale = 1f;
     }
 
-    public void BuildSchedule(ModeConfiguration modeConfiguration)
+    public async void BuildSchedule(ModeConfiguration modeConfiguration)
     {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+        InstructionText.text = modeConfiguration.Instruction;
+        ScoreText.text = score.ToString();
+        timeleft = modeConfiguration.LastingTime;
+        TimeText.text = timeleft.ToString();
+        
         for(int i = 0; i < RoomSpawnArea.Length; ++i)
         {
             Rooms.Add(null);
         }
+        
         foreach (var room in modeConfiguration.RoomFrequency)
         {
-            float time = 0f;
-            while(time < modeConfiguration.LastingTime)
+            if(room.StartingCount > 0)
             {
-                time += 60f / room.EncounterPerMinute;
-                OpenRoom(Mathf.Clamp(time + UnityEngine.Random.Range(-1f, 1f), 0, float.MaxValue), room.room);
+                for(int i = 0; i < room.StartingCount; ++i)
+                {
+                    OpenRoom(0, room.room);
+                }
+            }
+            else
+            {
+                float time = 0f;
+                while(time < modeConfiguration.LastingTime)
+                {
+                    time += 60f / room.EncounterPerMinute;
+                    OpenRoom(Mathf.Clamp(time + UnityEngine.Random.Range(-1f, 1f), 0, float.MaxValue), room.room);
+                }
             }
         }
 
@@ -59,25 +81,39 @@ public class GameManager : MonoBehaviour
                 ClientEnter(Mathf.Clamp(time + UnityEngine.Random.Range(-1f, 1f), 0, float.MaxValue), client.client);
             }
         }
+
+        Time.timeScale = 0f;
+        TimeGoes();
+    }
+    public async void TimeGoes()
+    {
+        while(timeleft > 0)
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            TimeText.text = (--timeleft).ToString();
+        }
+        GameWin();
     }
 
     public async void OpenRoom(float time, AbstractRoom roomPrefab)
     {
         await UniTask.Delay(TimeSpan.FromSeconds(time));
+        int[] randomIndex = Enumerable.Range(0, RoomSpawnArea.Length).OrderBy(a => rng.Next()).ToArray();
         for(int i = 0; i < Rooms.Count; ++i)
         {
-            if(Rooms[i] == null)
+            if(Rooms[randomIndex[i]] == null)
             {
-                Rooms[i] = Instantiate(roomPrefab, RoomSpawnArea[i].position, Quaternion.identity);
+                Rooms[randomIndex[i]] = Instantiate(roomPrefab, RoomSpawnArea[randomIndex[i]].position, Quaternion.identity);
                 return;
             }
         }
-        //Disadvantage?
     }
 
     public void CloseRoom(AbstractRoom room)
     {
         Rooms[Rooms.IndexOf(room)] = null;
+        score += room.clearScore;
+        ScoreText.text = score.ToString();
     }
 
     public async void ClientEnter(float time, AbstractGameClient clientPrefab)
@@ -88,7 +124,7 @@ public class GameManager : MonoBehaviour
         List<AbstractRoom> randomRooms = Rooms.OrderBy(a => rng.Next()).ToList();
         foreach(var room in randomRooms)
         {
-            if(room != null && room.TryJoinClient(client))
+            if(room != null && room.CanAddedByManager && room.TryJoinClient(client))
             {
                 return;
             }
@@ -96,8 +132,21 @@ public class GameManager : MonoBehaviour
         GameOver();
     }
 
-    public void GameOver()
+    public async void GameWin()
     {
-        Debug.Log("Game Over");
+        WinObject.SetActive(true);
+        WinText.text = "You Win!";
+        await UniTask.Delay(TimeSpan.FromSeconds(3f));
+        Destroy(this.gameObject);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    public async void GameOver()
+    {
+        WinObject.SetActive(true);
+        WinText.text = "Game Over!";
+        await UniTask.Delay(TimeSpan.FromSeconds(3f)); 
+        Destroy(this.gameObject);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }

@@ -8,10 +8,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Selected
   - Water
   - UI
-  - Selected
+  - 
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: Client
     uniqueID: 2848055911
+    locked: 0
+  - name: UI
+    uniqueID: 368821353
     locked: 0

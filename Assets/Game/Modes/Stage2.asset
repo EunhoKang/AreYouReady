@@ -10,18 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93e8e762f1a2913418ff7ad33020e239, type: 3}
-  m_Name: Stage1
+  m_Name: Stage2
   m_EditorClassIdentifier: 
-  Instruction: "\uC54C\uB9DE\uC740 \uC218\uC758 \uC0AC\uB78C\uC744 \uBC30\uCE58\uD558\uC138\uC694.\\n
-    \uC790\uB9AC\uAC00 \uAF49 \uCC28\uBA74 \uC11C\uBC84\uAC00 \uB2E4\uC6B4\uB429\uB2C8\uB2E4."
+  Instruction: "\uB54C\uB85C\uB294 \uB354 \uC801\uAC70\uB098 \uB9CE\uC740 \uC0AC\uB78C\uB4E4\uC774
+    \uBAA8\uC774\uAE30\uB3C4 \uD569\uB2C8\uB2E4."
   GameClientFrequency:
   - client: {fileID: 590999678783403868, guid: f4d0c6c4817560c47a63a5a14c00ac36, type: 3}
     EncounterPerMinute: 50
   RoomFrequency:
+  - room: {fileID: 4984047078483737033, guid: f7319fbc44d8dc2409485099b6c8423d, type: 3}
+    EncounterPerMinute: 6
+    StartingCount: 0
   - room: {fileID: 4984047078483737033, guid: c06e750aa484660438d2c99f928efb32, type: 3}
+    EncounterPerMinute: 6
+    StartingCount: 0
+  - room: {fileID: 4984047078483737033, guid: 96e285a8ee1282742b95ecf6e67ef7e8, type: 3}
     EncounterPerMinute: 6
     StartingCount: 0
   - room: {fileID: 6713796467780548740, guid: a3f2e09a284c25241ad1a6a421153764, type: 3}
     EncounterPerMinute: 0
     StartingCount: 1
-  LastingTime: 30
+  LastingTime: 120
