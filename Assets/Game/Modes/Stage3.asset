@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e8e762f1a2913418ff7ad33020e239, type: 3}
   m_Name: Stage3
   m_EditorClassIdentifier: 
-  Instruction: "\uBC14\uC704\uB294 \uACF5\uAC04 \uC0DD\uC131\uC744 \uBC29\uD574\uD569\uB2C8\uB2E4.
-    /n\n\uAE68\uC11C \uC5C6\uC560\uC138\uC694."
+  Instruction: "\uBC14\uC704\uB294 \uACF5\uAC04 \uC0DD\uC131\uC744 \uBC29\uD574\uD569\uB2C8\uB2E4.\n\uAE68\uC11C
+    \uC5C6\uC560\uC138\uC694."
   GameClientFrequency:
   - client: {fileID: 590999678783403868, guid: f4d0c6c4817560c47a63a5a14c00ac36, type: 3}
     EncounterPerMinute: 50
@@ -33,4 +33,4 @@ MonoBehaviour:
   - room: {fileID: 6713796467780548740, guid: a3f2e09a284c25241ad1a6a421153764, type: 3}
     EncounterPerMinute: 0
     StartingCount: 1
-  LastingTime: 120
+  LastingTime: 30

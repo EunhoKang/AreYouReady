@@ -334,6 +334,7 @@ MonoBehaviour:
   canAddedByManager: 1
   spawnOnInitialize: 0
   clearScore: 600
+  clip: {fileID: 8300000, guid: a368e3ddfb147b14e9fc201618648f0f, type: 3}
   MaxClientCount: 6
   Slots:
   - {fileID: 6726642880643184738}

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RockRoom : AbstractRoom
 {
+    public AudioClip clip;
     public int ClickCount = 24;
     public TextMeshProUGUI ClickCountText;
     void Start()
@@ -31,6 +32,7 @@ public class RockRoom : AbstractRoom
         ClickCountText.text = (--ClickCount).ToString();
         if(ClickCount == 0)
         {
+            SoundManager.instance.PlaySound(clip);
             CloseRoom();
         }
     }

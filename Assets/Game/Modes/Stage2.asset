@@ -30,4 +30,4 @@ MonoBehaviour:
   - room: {fileID: 6713796467780548740, guid: a3f2e09a284c25241ad1a6a421153764, type: 3}
     EncounterPerMinute: 0
     StartingCount: 1
-  LastingTime: 120
+  LastingTime: 30

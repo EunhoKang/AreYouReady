@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e8e762f1a2913418ff7ad33020e239, type: 3}
   m_Name: Stage1
   m_EditorClassIdentifier: 
-  Instruction: "\uC54C\uB9DE\uC740 \uC218\uC758 \uC0AC\uB78C\uC744 \uBC30\uCE58\uD558\uC138\uC694.\\n
-    \uC790\uB9AC\uAC00 \uAF49 \uCC28\uBA74 \uC11C\uBC84\uAC00 \uB2E4\uC6B4\uB429\uB2C8\uB2E4."
+  Instruction: "\uC54C\uB9DE\uC740 \uC218\uC758 \uC0AC\uB78C\uC744 \uBC30\uCE58\uD558\uC138\uC694.
+    \uC790\uB9AC\uAC00 \uAF49 \uCC28\uBA74 \uC11C\uBC84\uAC00 \uD130\uC9D1\uB2C8\uB2E4."
   GameClientFrequency:
   - client: {fileID: 590999678783403868, guid: f4d0c6c4817560c47a63a5a14c00ac36, type: 3}
-    EncounterPerMinute: 50
+    EncounterPerMinute: 40
   RoomFrequency:
   - room: {fileID: 4984047078483737033, guid: c06e750aa484660438d2c99f928efb32, type: 3}
-    EncounterPerMinute: 6
+    EncounterPerMinute: 10
     StartingCount: 0
   - room: {fileID: 6713796467780548740, guid: a3f2e09a284c25241ad1a6a421153764, type: 3}
     EncounterPerMinute: 0

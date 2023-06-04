@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class RaidRoom : AbstractRoom
 {
+    public AudioClip clip;
     public int MaxClientCount = 4;
     public List<Transform> Slots;
 
@@ -48,16 +49,12 @@ public class RaidRoom : AbstractRoom
 
     public async void RequestResponseForReady()
     {
+        SoundManager.instance.PlaySound(clip);
         foreach(var client in Clients)
         {
-            client.CanMove = false;
             client.ShowResponseForReady();
         }
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
-        foreach(var client in Clients)
-        {
-            client.CanMove = true;
-        }
         CloseRoom();
     }
 
@@ -65,14 +62,13 @@ public class RaidRoom : AbstractRoom
     {
         foreach(var client in Clients)
         {
-            client.CanMove = false;
             client.ShowResponseForReady();
         }
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
         foreach(var client in Clients)
         {
-            client.CanMove = true;
             client.ShowResponseForReject();
+            client.gameObject.layer = LayerMask.NameToLayer("Default");
         }
     }
 

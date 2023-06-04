@@ -481,7 +481,8 @@ MonoBehaviour:
   canAddedByManager: 0
   spawnOnInitialize: 0
   clearScore: 500
-  ClickCount: 24
+  clip: {fileID: 8300000, guid: a368e3ddfb147b14e9fc201618648f0f, type: 3}
+  ClickCount: 12
   ClickCountText: {fileID: 1810234403519568958}
 --- !u!61 &3114081636356021118
 BoxCollider2D:

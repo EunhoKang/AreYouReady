@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class TrashRoom : AbstractRoom
 {
+    public AudioClip clip;
     public int MaxClientCount = 1;
     public List<Transform> Slots;
     public SpriteRenderer SpriteRenderer;
@@ -45,16 +46,13 @@ public class TrashRoom : AbstractRoom
 
     public async void ResponseForReady()
     {
+        SoundManager.instance.PlaySound(clip);
         foreach(var client in Clients)
         {
             client.CanMove = false;
         }
         SpriteRenderer.sprite = ReadySprite;
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
-        foreach(var client in Clients)
-        {
-            client.CanMove = true;
-        }
         CloseRoom();
     }
 }
